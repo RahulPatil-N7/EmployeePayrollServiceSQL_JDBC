@@ -13,6 +13,7 @@ public class EmployeePayrollJDBC {
 
 	public static final String retrieveData = "SELECT * FROM employee_payroll";
 	public static final String updateData = "UPDATE employee_payroll SET Basic_Pay = 300000 where Name = 'Terissa'";
+	public static final String joindateData = "SELECT * FROM employee_payroll where Start_Date between cast('2022-07-01' as date) and date (now())";
 
 	public static void main(String[] args) throws SQLException {
 		System.out.println("************Welcome To Employee Payroll Service************\n");
@@ -34,7 +35,10 @@ public class EmployeePayrollJDBC {
 			 * UC2 - Retrieve employee data from table
 			 */
 			System.out.println("\nRetrieving all data from table :");
-			ResultSet resultSet = preparedStatement.executeQuery(retrieveData);
+			/*
+			 * UC5 - Retrieve all employees who joined on particular date range
+			 */
+			ResultSet resultSet = preparedStatement.executeQuery(joindateData);
 			while (resultSet.next()) {
 				System.out.println("\nId :" + resultSet.getInt(1) + "\nName :" + resultSet.getString(2) + "\nPhone :"
 						+ resultSet.getString(3) + "\nAddress : " + resultSet.getString(4) + "\nDepartment "
