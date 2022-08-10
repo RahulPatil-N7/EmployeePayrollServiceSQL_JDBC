@@ -12,6 +12,7 @@ import java.sql.Statement;
 public class EmployeePayrollJDBC {
 
 	public static final String retrieveData = "SELECT * FROM employee_payroll";
+	public static final String updateData = "UPDATE employee_payroll SET Basic_Pay = 300000 where Name = 'Rahul'";
 
 	public static void main(String[] args) throws SQLException {
 		System.out.println("************Welcome To Employee Payroll Service************\n");
@@ -27,9 +28,11 @@ public class EmployeePayrollJDBC {
 			connection = DriverManager.getConnection(jdbcURL, userName, passWord);
 			System.out.println("Connection is successful!" + connection);
 			Statement statement = connection.createStatement();
+			statement.execute(updateData); // UC 3 - Update data & sync with database
 			/*
 			 * UC2 - Retrieve employee data from table
 			 */
+
 			ResultSet resultSet = statement.executeQuery(retrieveData);
 			while (resultSet.next()) {
 				System.out.println("\nId :" + resultSet.getInt(1) + "\nName :" + resultSet.getString(2) + "\nPhone :"
