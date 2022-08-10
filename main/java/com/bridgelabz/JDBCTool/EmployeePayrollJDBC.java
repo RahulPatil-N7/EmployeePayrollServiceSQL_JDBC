@@ -2,9 +2,9 @@ package com.bridgelabz.JDBCTool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /*
  *Java program to connect payroll_service database.
@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class EmployeePayrollJDBC {
 
 	public static final String retrieveData = "SELECT * FROM employee_payroll";
-	public static final String updateData = "UPDATE employee_payroll SET Basic_Pay = 300000 where Name = 'Rahul'";
+	public static final String updateData = "UPDATE employee_payroll SET Basic_Pay = 300000 where Name = 'Terissa'";
 
 	public static void main(String[] args) throws SQLException {
 		System.out.println("************Welcome To Employee Payroll Service************\n");
@@ -27,13 +27,14 @@ public class EmployeePayrollJDBC {
 			System.out.println("Connecting to database : " + jdbcURL);
 			connection = DriverManager.getConnection(jdbcURL, userName, passWord);
 			System.out.println("Connection is successful!" + connection);
-			Statement statement = connection.createStatement();
-			statement.execute(updateData); // UC 3 - Update data & sync with database
+			PreparedStatement preparedStatement = connection.prepareStatement(updateData);
+			// UC 3,4 - Update data & sync with database using prepared statement
+			preparedStatement.execute(updateData);
 			/*
 			 * UC2 - Retrieve employee data from table
 			 */
-
-			ResultSet resultSet = statement.executeQuery(retrieveData);
+			System.out.println("\nRetrieving all data from table :");
+			ResultSet resultSet = preparedStatement.executeQuery(retrieveData);
 			while (resultSet.next()) {
 				System.out.println("\nId :" + resultSet.getInt(1) + "\nName :" + resultSet.getString(2) + "\nPhone :"
 						+ resultSet.getString(3) + "\nAddress : " + resultSet.getString(4) + "\nDepartment "
