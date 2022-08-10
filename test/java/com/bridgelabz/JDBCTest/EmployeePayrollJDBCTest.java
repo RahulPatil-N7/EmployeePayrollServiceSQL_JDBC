@@ -69,8 +69,7 @@ public class EmployeePayrollJDBCTest {
 	 */
 	@Test
 	public void given_InsertQueryPreparedStatementShouldReturnTrue_ResultShouldSyncWithDatabase() throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(EmployeePayrollJDBC.updateData);
-		preparedStatement.execute(EmployeePayrollJDBC.updateData);
+		PreparedStatement preparedStatement = connection.prepareStatement(EmployeePayrollJDBC.addData);
 		ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM employee_payroll where Name = 'Tom'");
 		String result = null;
 		while (resultSet.next()) {
