@@ -63,4 +63,22 @@ public class EmployeePayrollJDBCTest {
 		Assert.assertEquals(expexted, result);
 	}
 
+	/*
+	 * UC 8 - Test to compare results of insert query prepared Statement with
+	 * payroll_service database
+	 */
+	@Test
+	public void given_InsertQueryPreparedStatementOnEmployeeDepartmentTable_ShouldReturnTrue_ResultShouldSyncWithDatabase()
+			throws SQLException {
+		PreparedStatement preparedStatement = EmployeePayrollJDBC.getConnection()
+				.prepareStatement(EmployeePayrollJDBC.ADD_DEPARTMENT_DATA);
+		ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM employee_deparment where employee_id = 13");
+		String result = null;
+		while (resultSet.next()) {
+			result = resultSet.getString(1);
+		}
+		String expexted = "13";
+		Assert.assertEquals(expexted, result);
+	}
+
 }
