@@ -47,7 +47,7 @@ public class EmployeePayrollJDBC {
 		boolean exit = false;
 		while (!exit) {
 			System.out.println(
-					"\nEmployee Payroll Service Database Menu.\n1. Retrive Data.\n2. Update Data.\n3. Join Date Data.\n4. Insert Data.\n5. Exit");
+					"\nEmployee Payroll Service Database Menu.\n1. Retrive Data.\n2. Update Data.\n3. Join Date Data.\n4. Insert Data.\n5. Remove Employee.\n5. Exit");
 			scanner = new Scanner(System.in);
 			int choice = scanner.nextInt();
 			switch (choice) {
@@ -63,11 +63,13 @@ public class EmployeePayrollJDBC {
 							+ "\nBasic_Pay :" + resultSet.getDouble(7) + "\nJoin Date :" + resultSet.getDate(8)
 							+ "\nIs_Avtive :" + resultSet.getString(9));
 				}
+				getConnection().close();
 				break;
 			case 2: // UC 3,4 - Update data & sync with database using prepared statement
 				PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATE_DATA);
 				preparedStatement.execute(UPDATE_DATA);
 				System.out.println("\nData Updated & Synced With Database!");
+				getConnection().close();
 				break;
 			case 3: // UC5 - Retrieve all employees who joined on particular date range
 				ResultSet result = statement.executeQuery(JOIN_DATE_DATA);
@@ -78,12 +80,14 @@ public class EmployeePayrollJDBC {
 							+ result.getDouble(7) + "\nJoin Date :" + result.getDate(8) + "\nIs_Avtive :"
 							+ result.getString(9));
 				}
+				getConnection().close();
 				break;
 			case 4: // UC 7 - Ability to add new employee to the payroll
 				try {
 					statement.execute(ADD_DATA);
 					statement.execute(ADD_DEPARTMENT_DATA); // UC 8 -Ability to add department Data to Both tables
 					System.out.println("\nData Added & Synced With Database!");
+					getConnection().close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -91,6 +95,7 @@ public class EmployeePayrollJDBC {
 			case 5:// UC9 - Ability to remove employee & set isActive field to false
 				statement.execute(REMOVE_EMPLOYEE);
 				System.out.println("\nData Updated & Synced With Database!");
+				getConnection().close();
 				break;
 			case 6:
 				System.out.println("Thanks !");
