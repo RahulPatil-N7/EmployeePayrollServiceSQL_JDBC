@@ -16,7 +16,8 @@ public class EmployeePayrollJDBC {
 	public static final String RETRIEVE_DATA = "SELECT * FROM employee_payroll";
 	public static final String UPDATE_DATA = "UPDATE employee_payroll SET Basic_Pay = 300000 where Name = 'Rahul'";
 	public static final String JOIN_DATE_DATA = "SELECT * FROM employee_payroll where Start_Date between cast('2022-07-01' as date) and date (now())";
-	public static final String ADD_DATA = "insert into employee_payroll values(12, 'John', 9967223349, 'Navi Mumbai', 'Marketing', 'M', 50000, '2022-08-10', 50000, 45000, 9000, 36000)";
+	public static final String ADD_DATA = "insert into employee_payroll values(13, 'Bill', 9967223340, 'Mumbai', 'Marketing', 'M', 50000, '2022-08-10', 50000, 45000, 9000, 36000)";
+	public static final String ADD_DEPARTMENT_DATA = "insert into employee_deparment values(13, 'Marketing')";
 	private static Scanner scanner;
 
 	// UC1 - Connecting to database
@@ -74,9 +75,10 @@ public class EmployeePayrollJDBC {
 							+ result.getDouble(7) + "\nJoin Date :" + result.getDate(8));
 				}
 				break;
-			case 4: // UC 7 Ability to add new employee to the payroll
+			case 4: // UC 7 - Ability to add new employee to the payroll
 				try {
 					statement.execute(ADD_DATA);
+					statement.execute(ADD_DEPARTMENT_DATA); // UC 8 -Ability to add department Data to Both tables
 					System.out.println("\nData Added & Synced With Database!");
 				} catch (Exception e) {
 					e.printStackTrace();
