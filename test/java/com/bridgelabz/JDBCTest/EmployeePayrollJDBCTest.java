@@ -1,7 +1,5 @@
 package com.bridgelabz.JDBCTest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,29 +12,13 @@ import com.bridgelabz.JDBCTool.EmployeePayrollJDBC;
 
 public class EmployeePayrollJDBCTest {
 
-	String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-	String userName = "root";
-	String passWord = "Rahul@N77";
-	Connection connection = null;
-	{
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("Driver loaded!");
-			System.out.println("Connecting to database : " + jdbcURL);
-			connection = DriverManager.getConnection(jdbcURL, userName, passWord);
-			System.out.println("Connection is successful!" + connection);
-		} catch (Exception exception) {
-			System.out.println(exception.getMessage());
-		}
-	}
-
 	/*
 	 * UC 3 - Test to compare results with payroll_service database
 	 */
 	@Test
 	public void given_UpdateQueryStatementShouldReturnTrue_ResultShouldSyncWithDatabase() throws SQLException {
-		Statement statement = connection.createStatement();
-		statement.execute(EmployeePayrollJDBC.updateData);
+		Statement statement = EmployeePayrollJDBC.getConnection().createStatement();
+		statement.execute(EmployeePayrollJDBC.UPDATE_DATA);
 		ResultSet resultSet = statement.executeQuery("SELECT * FROM employee_payroll where Name = 'Rahul'");
 		Double result = 0.0;
 		while (resultSet.next()) {
@@ -52,8 +34,9 @@ public class EmployeePayrollJDBCTest {
 	 */
 	@Test
 	public void given_UpdateQueryPreparedStatementShouldReturnTrue_ResultShouldSyncWithDatabase() throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(EmployeePayrollJDBC.updateData);
-		preparedStatement.execute(EmployeePayrollJDBC.updateData);
+		PreparedStatement preparedStatement = EmployeePayrollJDBC.getConnection()
+				.prepareStatement(EmployeePayrollJDBC.UPDATE_DATA);
+		preparedStatement.execute(EmployeePayrollJDBC.UPDATE_DATA);
 		ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM employee_payroll where Name = 'Terissa'");
 		Double result = 0.0;
 		while (resultSet.next()) {
@@ -69,7 +52,8 @@ public class EmployeePayrollJDBCTest {
 	 */
 	@Test
 	public void given_InsertQueryPreparedStatementShouldReturnTrue_ResultShouldSyncWithDatabase() throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(EmployeePayrollJDBC.addData);
+		PreparedStatement preparedStatement = EmployeePayrollJDBC.getConnection()
+				.prepareStatement(EmployeePayrollJDBC.ADD_DATA);
 		ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM employee_payroll where Name = 'Tom'");
 		String result = null;
 		while (resultSet.next()) {
