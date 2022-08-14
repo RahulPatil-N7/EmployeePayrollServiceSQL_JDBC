@@ -18,6 +18,8 @@ public class EmployeePayrollJDBC {
 	public static final String JOIN_DATE_DATA = "SELECT * FROM employee_payroll where Start_Date between cast('2022-07-01' as date) and date (now())";
 	public static final String ADD_DATA = "insert into employee_payroll values(13, 'Bill', 9967223340, 'Mumbai', 'Marketing', 'M', 50000, '2022-08-10', 50000, 45000, 9000, 36000)";
 	public static final String ADD_DEPARTMENT_DATA = "insert into employee_deparment values(13, 'Marketing')";
+	public static final String REMOVE_EMPLOYEE = "UPDATE employee_payroll set isActive = 'false' where Name= 'John'";
+
 	private static Scanner scanner;
 
 	// UC1 - Connecting to database
@@ -58,7 +60,8 @@ public class EmployeePayrollJDBC {
 					System.out.println("\nId :" + resultSet.getInt(1) + "\nName :" + resultSet.getString(2)
 							+ "\nPhone :" + resultSet.getString(3) + "\nAddress : " + resultSet.getString(4)
 							+ "\nDepartment " + resultSet.getString(5) + "\nGender :" + resultSet.getString(6)
-							+ "\nBasic_Pay :" + resultSet.getDouble(7) + "\nJoin Date :" + resultSet.getDate(8));
+							+ "\nBasic_Pay :" + resultSet.getDouble(7) + "\nJoin Date :" + resultSet.getDate(8)
+							+ "\nIs_Avtive :" + resultSet.getString(9));
 				}
 				break;
 			case 2: // UC 3,4 - Update data & sync with database using prepared statement
@@ -72,7 +75,8 @@ public class EmployeePayrollJDBC {
 					System.out.println("\nId :" + result.getInt(1) + "\nName :" + result.getString(2) + "\nPhone :"
 							+ result.getString(3) + "\nAddress : " + result.getString(4) + "\nDepartment "
 							+ result.getString(5) + "\nGender :" + result.getString(6) + "\nBasic_Pay :"
-							+ result.getDouble(7) + "\nJoin Date :" + result.getDate(8));
+							+ result.getDouble(7) + "\nJoin Date :" + result.getDate(8) + "\nIs_Avtive :"
+							+ result.getString(9));
 				}
 				break;
 			case 4: // UC 7 - Ability to add new employee to the payroll
@@ -84,7 +88,11 @@ public class EmployeePayrollJDBC {
 					e.printStackTrace();
 				}
 				break;
-			case 5:
+			case 5:// UC9 - Ability to remove employee & set isActive field to false
+				statement.execute(REMOVE_EMPLOYEE);
+				System.out.println("\nData Updated & Synced With Database!");
+				break;
+			case 6:
 				System.out.println("Thanks !");
 				exit = true;
 				break;
